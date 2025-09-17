@@ -1,0 +1,66 @@
+Hasil Analisis
+1. Bagaimana proses prediksi real-time dilakukan pada sistem ini?
+Jawab :
+Berdasarkan file, sistem menggunakan OpenCV untuk menangkap gambar dari kamera. Setiap frame kemudian diproses dengan langkah resize ke ukuran 150×150 piksel
+dan dinormalisasi ke rentang 0–1 agar sesuai dengan input model CNN. Setelah itu, model CNN yang sudah dilatih melakukan prediksi kelas objek. Hasil prediksi
+ditampilkan langsung di layar dengan overlay text secara real-time.
+
+2. Faktor apa saja yang memengaruhi keakuratan prediksi real-time?
+Jawab :
+Keakuratan prediksi dipengaruhi oleh:
+* Kualitas model CNN (arsitektur, jumlah layer, jumlah epoch, dan fungsi aktivasi).
+* Variasi dan jumlah data latih (semakin beragam dataset, semakin baik kemampuan generalisasi).
+* Kondisi lingkungan saat prediksi, seperti pencahayaan, posisi objek, dan tingkat kebisingan visual.
+  Hal ini sesuai dengan penggunaan dataset Intel Image Classification dari Kaggle yang sudah melalui preprocessing dan augmentasi untuk meningkatkan variasi data latih.
+
+3. Apa tujuan dari penerapan Night Vision pada sistem ini?
+Jawab : 
+Tujuannya adalah untuk meningkatkan visibilitas gambar dalam kondisi pencahayaan rendah. File menunjukkan bahwa Night Vision dilakukan dengan mengubah frame menjadi grayscale
+lalu diberi colormap (JET) agar detail lebih terlihat. Dengan cara ini, objek tetap dapat diamati walaupun pencahayaan minim.
+
+4. Apa kelemahan dari pendekatan Night Vision yang digunakan?
+Jawab : 
+Kelemahan pendekatan ini adalah hanya sebatas visual enhancement (pewarnaan ulang), tidak benar-benar meningkatkan kualitas gambar. Dalam kondisi sangat gelap atau tanpa cahaya, 
+metode ini tidak efektif karena tidak menggunakan sensor khusus (seperti inframerah) atau model deep learning untuk low-light enhancement.
+
+5. Apa saja optimasi yang bisa dilakukan untuk meningkatkan performa prediksi real-time?
+Jawab :
+* Konversi model ke TensorFlow Lite agar proses inferensi lebih cepat pada perangkat dengan sumber daya terbatas (misalnya Raspberry Pi).
+* Menambah jumlah epoch atau menggunakan transfer learning dengan arsitektur CNN populer (ResNet, MobileNet, VGG).
+* Menggunakan GPU/TPU untuk mempercepat proses prediksi real-time.
+* Mengurangi kompleksitas gambar input (misalnya menurunkan resolusi lebih kecil lagi tanpa mengurangi akurasi).
+
+6. Apakah model dapat dilatih ulang untuk menangani kondisi pencahayaan rendah?
+Jawab :
+Ya, model dapat dilatih ulang dengan menambahkan dataset dari berbagai kondisi pencahayaan, termasuk citra dengan cahaya redup dan hasil transformasi Night Vision. Dengan begitu, 
+model akan lebih robust terhadap variasi lingkungan, sesuai tujuan praktikum yang memang mendorong mahasiswa mengintegrasikan CNN dengan kondisi nyata.
+
+Hasil Diskusi 
+1. Relevansi CNN dalam sistem kendali
+   CNN terbukti efektif dalam mengenali pola visual dan dapat diintegrasikan ke berbagai aplikasi nyata seperti robotika, kendaraan otonom, maupun sistem pengawasan berbasis kamera.
+
+2. Faktor yang memengaruhi akurasi real-time
+   * Kualitas arsitektur dan parameter model (jumlah layer, epoch, fungsi aktivasi).
+   * Variasi dan jumlah dataset yang digunakan.
+   * Kondisi lingkungan saat prediksi, terutama pencahayaan dan posisi objek.
+
+3. Peran preprocessing dan augmentasi data
+Tahapan normalisasi serta augmentasi data (rotasi, zoom, flip) membantu meningkatkan kemampuan generalisasi model sehingga tidak mudah overfitting.
+
+4. Fitur Night Vision
+Penerapan Night Vision menjadi nilai tambah untuk mendeteksi objek pada kondisi minim cahaya. Namun, pendekatan yang digunakan masih terbatas pada 
+pewarnaan ulang citra tanpa benar-benar meningkatkan kualitas visual.
+
+5. Kelemahan sistem
+* Model CNN masih sederhana sehingga akurasi belum maksimal.
+* Jumlah epoch terbatas sehingga proses pelatihan kurang optimal.
+* Night Vision tidak efektif pada kondisi gelap total.
+
+6. Optimasi yang dapat dilakukan
+* Mengonversi model ke TensorFlow Lite untuk mempercepat inferensi di perangkat terbatas.
+* Menggunakan arsitektur CNN yang lebih kompleks atau menerapkan transfer learning (ResNet, MobileNet, VGG).
+* Menambahkan data latih dari berbagai kondisi pencahayaan agar model lebih robust.
+* Memanfaatkan GPU/TPU untuk mempercepat proses pelatihan dan prediksi.
+
+7. Pengembangan lebih lanjut
+Sistem dapat ditingkatkan dengan menambahkan metode low-light image enhancement atau penggunaan sensor inframerah agar tetap efektif meskipun pada kondisi pencahayaan sangat minim.
